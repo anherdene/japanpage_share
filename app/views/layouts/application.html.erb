@@ -1,14 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JapanpageShare</title>
-  <%= stylesheet_link_tag    "application" %>
+  <title>Japanpage share</title>
+  <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
+
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body style="padding-top: 40px">
 
-<%= yield %>
+<div class="container">
+  <div class="topbar-wrapper" style="z-index: 5;">
+    <div class="topbar" data-dropdawn="dropdawn">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3>
+            <%= link_to "JP-SHARE", root_path %>
+          </h3>
+          <ul class="nav">
+            <% if user_signed_in? %>
+                <li> <%= link_to "People", people_path %> </li>
+                <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
+            <% else %>
+                <li> <%= link_to "Login", new_user_session_path %> </li>
+                <li> <%= link_to "Register", new_user_registration_path %></li>
+            <% end %>
+          </ul>
 
+          <% if user_signed_in? %>
+              <p class="pull-right">
+                Logged as
+                <%= link_to current_user.full_name, user_path(:id => current_user.id) %>
+              </p>
+
+              
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <% if user_signed_in? %>
+	        
+          <div class="span3">
+            <div class="sidebar">
+            <ul class="media-grid">
+			  <li>
+			    <%= link_to image_tag(current_user.avatar.url(:post), :class => "thumbnail"), user_path(current_user.id) %>
+			  </li>
+			</ul>
+              <div class="well">
+                <ul>
+                  <li> <%= link_to "My Page", user_path(:id => current_user.id) %></li>
+                  <li> <%= link_to "My Friends#{requests_num}", user_friendship_index_path(:user_id => current_user.id) %></li>
+                  <li> <%= link_to "My Messages", "" %></li>
+                  <li> <%= link_to "My Photos", user_photo_index_path(:user_id => current_user.id) %></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      <% end %>
+      <div class="span13">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="container-footer">
+    <p class="title">
+      Pronet Co.,Ltd Copyright &copy; <%= Time.now.year %>
+    </p>
+  </div>
+</div>
+<%= yield(:js) %>
 </body>
 </html>

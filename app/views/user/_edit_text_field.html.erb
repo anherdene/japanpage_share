@@ -1,0 +1,8 @@
+<% params.each do |param| %>
+  <div class="clearfix">
+    <%= form.label param, param.to_s.camelize %>
+    <div class="input">
+      <%= form.text_field(param,:class => "span5")  %>
+    </div>
+  </div>
+<% end %>

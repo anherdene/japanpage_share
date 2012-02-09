@@ -1,0 +1,16 @@
+<div class="well" id="<%= post.id %>" >
+  <div class="row">
+    <div class="span3">
+      <ul class="media-grid">
+        <li>
+          <%= link_to image_tag(post.user.avatar.url(:post)), user_path(post.sender_id) %>
+        </li>
+      </ul>
+      <%= link_to post.user.full_name, user_path(post.user) %>
+    </div>
+    <div class="content">
+      <%= post.message %>
+    </div>
+    <%= button_tag "X",:class => "btn danger", :action => "post.delete" %>
+  </div>
+</div>

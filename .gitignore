@@ -15,3 +15,6 @@
 /tmp
 master
 master
+tmp
+db/development.sqlite3
+public/images

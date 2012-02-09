@@ -1,0 +1,4 @@
+<% broadcast "/messages/new/"+@post.recepient_id.to_s do %>
+$("#wall_posts").prepend("<%= j render :partial => 'post/post', :locals => {:post => @post}  %>");
+<% end %>
+$("#post_form").reset();

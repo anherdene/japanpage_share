@@ -4,6 +4,14 @@ gem 'rails', '3.1.3'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 gem 'sqlite3'
+gem 'devise','1.5.3'
+gem 'rmagick'
+gem 'paperclip' , '2.4.5'
+
+gem 'will_paginate'
+gem 'pry'
+gem 'delayed_job_active_record'
+gem 'delayed_paperclip'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -1,0 +1,12 @@
+<% if @user == current_user %>
+    <div class="status-container well">
+      <span class="current-status"><%= @user.get_status(current_user) %></span>
+      <%= form_tag user_path(@user.id), :remote => true, :class => 'status-editable-container', :style => "display:none" do %>
+          <%= text_field_tag "user[status]", @user.get_status(current_user), :class => 'status-editable' %>
+          <%= submit_tag "update", :class => "btn primary" %>
+          <%= link_to "cancel", "", :class => "btn danger status-cancel-edit" %>
+      <% end %>
+    </div>
+<% else %>
+    <%= @user.get_status(current_user) %>
+<% end %>

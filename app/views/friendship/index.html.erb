@@ -1,0 +1,77 @@
+<div class="container-narrow">
+<h1>
+  Friends
+</h1>
+<%= link_to @user.name + " page",user_path(:id => @user.id),:class => "btn primary small" %>
+<br />
+<br />
+<div class="span8">
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"> <a href="#friends">Friends</a> </li>
+    <%if @user == current_user %> <li> <a href="#requests">Requests</a></li> <% end %>
+  </ul>
+
+  <div class="pill-content">
+    <div class="tab-content active" id="friends">
+        <table class="condensed-table">
+          <thead>
+            <tr>
+              <th>
+                <% if @user == current_user %>
+                    You
+                <% else %>
+                  <%= @user.name %>
+                <% end %>
+                have <%= @friendships.count%> friends
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @friendships.each do |fr| %>
+            <tr>
+              <th class="media-grid">
+                <%= link_to image_tag(fr.friend.avatar.url(:post)), user_path(fr.friend) %>
+              </th>
+              <th><%= link_to fr.friend.full_name, user_path(:id => fr.friend.id) %> </th>
+              <th>
+                <% if @user == current_user %>
+                    <%= link_to "Remove", friendship_destroy_path(:id => fr.id) %>
+                <% end %>
+              </th>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="requests">
+      <table class="condensed-table">
+          <thead>
+            <tr>
+              <th>You have <%= @requests.count %> requests</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @requests.each do |fr| %>
+              <tr>
+                <th class="media-grid">
+                  <%= link_to image_tag(fr.friend.avatar.url(:post)), user_path(fr.friend) %>
+                </th>
+                <th><%= link_to fr.user.name, user_path(:id => fr.user.id) %></th>
+                <th>
+                  <% if @user == current_user %>
+                    <%= link_to "Accept", friendship_confirm_path(:id => fr.id) %>
+                    <%= link_to "Reject", friendship_destroy_path(:id => fr.id) %>
+                  <% end %>
+                </th>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,20 @@
+<div class="span13">
+  <br />
+  <% if @user == current_user %>
+      <%= form_for :photo, :url => user_photo_index_path(:user_id => @user.id), :method => :post, :html => {:multipart => true} do |f| %>
+          <%= f.file_field :image %>
+          <%= f.submit "Add", :class => "btn primary" %>
+          <%= %>
+      <% end %>
+  <% end %>
+  <div class="span offset1"><h6>Photos: <%=@photos.count%></h6></div>
+  <div class="row well-photo gallery">
+    <% @photos.each do |photo| %>
+        <div class="well-photo span3">
+          <%= link_to(image_tag(photo.image.url(:small)), photo.image.url(:normal), :class=>"image") %>
+          <%= link_to 'x', user_photo_path(:user_id => @user.id, :id => photo.id), :method => :delete, :class => "close" %>
+        </div>
+    <% end %>
+  </div>
+  <div class="span3"> <%= will_paginate @photos if @photos.respond_to? :total_pages %></div>
+</div>

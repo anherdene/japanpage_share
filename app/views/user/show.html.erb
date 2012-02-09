@@ -1,0 +1,78 @@
+<%= content_for :js do %>
+    <script type="text/javascript">
+        var faye = new Faye.Client('<%=request.server_name%>:9292/faye');
+        faye.subscribe("/messages/new/<%= @user.id %>", function(data) {
+            eval(data);
+        });
+    </script>
+<% end %>
+<div class="container-main">
+  <div class="page-header-main">
+    <h3>
+    <span class="page-header-text-color">
+      <% if user_signed_in? and @user == current_user %>
+        <%= current_user.full_name %> (This is You)
+      <% else %>
+        <%= @user.full_name %>
+      <% end %>
+    </span>
+    </h3>
+  </div>
+
+  <div class="row">
+    <div class="span5 links">
+      <%= render :partial => "show_links", :locals => {:user => @user, :friendship => @user.friendship(current_user)} %>
+      <div class="well-friends">
+        <div class="page-header">
+          <%= link_to "Friends   #{@user.all_friends.count}", user_friendship_index_path(:user_id => @user.id), :class => "span" %>
+        </div>
+        <% @user.random_friends.each do |friend| %>
+            <div class="row">
+              <div class="span2"><br/><%= link_to friend.full_name, user_path(:id => friend.id) %></div>
+              <div class="span2">
+                <ul class="media-grid">
+                  <li><%= link_to image_tag(friend.avatar.url(:post)), user_path(friend.id) %></li>
+                </ul>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="span8 userinfo">
+      <%= render :partial => "show_status" %>
+      <div class="well">
+        <% user_info(@user).each do |section, value| %>
+            <br />
+            <div class="page-header label notice"><%= section %></div>
+            <% value.each do |name, value| %>
+                <%= render :partial => "show_info", :locals => {:name => name, :value => value} %>
+            <% end %>
+        <% end %>
+      </div>
+
+
+      <div class="well">
+        <div class="page-header-main">
+          <h3>
+            <span class="page-header-text-color">Wall</span>
+          </h3>
+        </div>
+        <%= form_tag user_post_index_path(@user), :remote => true do %>
+            <%= text_area_tag "post[message]", "",
+                              :id => 'post_form', :rows => 4,
+                              :class => 'span7',
+                              :placeholder=> 'Write a message..'
+            %>
+            <%= submit_tag "Post", :class => 'btn primary' %>
+        <% end %>
+        <div id="wall_posts" class="content">
+          <%= will_paginate @posts if @posts.respond_to? :total_pages %>
+          <% @posts.each do |post| %>
+              <%= render :partial => 'post/post', :locals => {:post => post} %>
+          <% end %>
+          <%= will_paginate @posts if @posts.respond_to? :total_pages %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+
+<% if user_signed_in? and user == current_user %>
+    <div class="page-header-edit">
+      <h6>
+        <span class="page-header-text-color"><%= link_to "Edit page", edit_user_path %></span>
+      </h6>
+    </div>
+<% else %>
+    <% if friendship %>
+        <% if friendship.is_confirmed != nil %>
+            <div class="well-friends">
+              <div class="row">
+                <div class="span-small label notice"> Is your Friend</div>
+                <span><%= link_to "Remove", friendship_destroy_path(:id => friendship.id), :class => "label important" %></span>
+              </div>
+            </div>
+        <% else %>
+            <% if current_user.id == friendship.friend_id %>
+                <div class="well">
+                  <div class="row">
+                    <div class="span4 label notice"><%= user.name %> wants to be your friend</div>
+                    <div class="span4 offset2">
+                      <%= link_to "Accept", friendship_confirm_path(:id => friendship.id), :class => "btn primary small" %>
+                      <%= link_to "Reject", friendship_destroy_path(:id => friendship.id), :class => "btn danger small" %>
+                    </div>
+                  </div>
+                </div>
+            <% else %>
+                You've sent request to <%= user.name %>
+            <% end %>
+        <% end %>
+    <% else %>
+        <div class="well-friends">
+          <div class="row">
+            <div class="span-medium label notice"> Is Not Your Friend</div>
+            <span><%= link_to "Add", friendship_create_path(:friend_id => @user.id), :class => "label important", :method => :post %></span>
+          </div>
+        </div>
+    <% end %>
+<% end %>
+<div class="page-header-edit">
+  <h6>
+    <span class="page-header-text-color"><%= link_to "Photos", user_photo_index_path(:user_id => @user.id) %></span>
+  </h6>
+</div>
+

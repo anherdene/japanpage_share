@@ -1,0 +1,18 @@
+<div class="clearfix">
+  <%= form.label params[0], params[0].to_s.camelize %>
+    <div class="input">
+      <%= form.text_area params[0],:rows => 5, :class => "span5" %>
+    </div>
+</div>
+<div class="clearfix">
+  <%= form.label params[1], params[1].to_s.camelize %>
+    <div class="input">
+      <%= form.date_select params[1], {},{ :class => "mini" } %>
+    </div>
+</div>
+<div class="clearfix">
+  <%= form.label params[2], params[2].to_s.camelize %>
+  <div class="input">
+    <%= form.select params[2], { "Male" => "true", "Female" => "false"},{},{:class => "small"}%>
+  </div>
+</div>

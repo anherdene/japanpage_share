@@ -4,6 +4,7 @@ gem 'rails', '3.1.3'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 gem 'sqlite3'
+gem 'mysql2' , :group => :production
 gem 'devise','1.5.3'
 gem 'rmagick'
 gem 'paperclip' , '2.4.5'

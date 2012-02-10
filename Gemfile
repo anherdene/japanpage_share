@@ -6,7 +6,7 @@ gem 'rails', '3.1.3'
 gem 'sqlite3'
 gem 'mysql2' , :group => :production
 gem 'devise','1.5.3'
-gem 'rmagick'
+gem 'rmagick','2.12.2'
 gem 'paperclip' , '2.4.5'
 
 gem 'will_paginate'
